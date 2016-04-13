@@ -3,6 +3,7 @@ package edu.illinois.foti2.pocketforreddit;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.Picasso;
 
 
@@ -117,15 +120,16 @@ public class PostsFragment extends Fragment{
                 thumbnail = (ImageView)convertView.findViewById(R.id.list_image);
                 if(!posts.get(position).thumbnail.equals("self")
                         && !posts.get(position).thumbnail.equals("nsfw")
-                        && !posts.get(position).thumbnail.equals("default")
-                        && !posts.get(position).thumbnail.equals("")) {
+                        && !posts.get(position).thumbnail.equals("default")){
 
-                    Picasso.with(thumbnail.getContext()).load(posts.get(position).thumbnail).resize(75,75).into(thumbnail);
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+                    imageLoader.init(ImageLoaderConfiguration.createDefault(thumbnail.getContext()));
+                    imageLoader.displayImage(posts.get(position).thumbnail, thumbnail);
 
                 }
 
                 else{
-                    thumbnail.setVisibility(View.GONE);
+                    //thumbnail.setVisibility(View.GONE);
                 }
 
                 return convertView;
